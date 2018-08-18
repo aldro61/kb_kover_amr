@@ -1,0 +1,62 @@
+Kover Learning Report
+=====================
+
+Running time: 1:35:38.594806
+
+Configuration:
+--------------
+bound_delta: 0.05
+bound_max_genome_size: 10461658
+dataset: /scratch/adrouin/data/patric/single_species_datasets/cefepime___2202579077548954665/dataset.kover
+hp_choice: bound
+max_equiv_rules: 100000
+max_rules: 20
+model_type: ['conjunction', 'disjunction']
+n_cpu: 2
+output_dir: /scratch/adrouin/experiments/patric/single_species_datasets/scm_bound/cefepime___2202579077548954665/train_only
+p: [1.0, 1.778, 3.162, 5.623, 10.0]
+progress: False
+random_seed: 42
+split: train_only
+verbose: False
+
+Data summary:
+-------------
+Dataset file: /scratch/adrouin/data/patric/single_species_datasets/cefepime___2202579077548954665/dataset.kover
+Dataset UUID: 989184ca-0600-11e8-9b0b-001b2193b764
+Phenotype: Cefepime___Klebsiella_Pneumoniae___Metadata_Date_2018-01-29
+Genomic data type: contigs
+Split: train_only
+Number of genomes used for training: 1650 (Group sensitive: 552, Group resistant: 1098)
+Number of genomes used for testing: 0 (Group sensitive: 0, Group resistant: 0)
+Number of k-mers: 65298935
+K-mer size : 31
+K-mer filtering : singleton
+
+Hyperparameter Values:
+----------------------
+Selection strategy: bound selection (score = 0.48815)
+Model type: disjunction
+p: 1.000000
+Maximum number of rules: 3
+
+Metrics (training data)
+-----------------------
+Error Rate: 0.19576
+Sensitivity: 0.97359
+Specificity: 0.46739
+Precision: 0.7843
+Recall: 0.97359
+F1 Score: 0.86875
+True Positives: 1069.0
+True Negatives: 258.0
+False Positives: 294.0
+False Negatives: 29.0
+
+Model (Disjunction - 3 rules):
+------------------------------
+Presence(AAACTGGCACTGATACCGTCAGCCGAACAGC) [Importance: 0.84, 29 equivalent rules]
+OR
+Presence(AGCTAATAAAAAACACACGTGGAATTTAGGG) [Importance: 0.70, 2 equivalent rules]
+OR
+Presence(AACTCCGCCATCCCAGGCGATGCGCGCGATA) [Importance: 0.36, 39 equivalent rules]

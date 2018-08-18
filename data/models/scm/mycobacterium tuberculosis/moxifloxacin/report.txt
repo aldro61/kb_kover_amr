@@ -1,0 +1,58 @@
+Kover Learning Report
+=====================
+
+Running time: 0:02:58.917132
+
+Configuration:
+--------------
+bound_delta: 0.05
+bound_max_genome_size: 10461658
+dataset: /scratch/adrouin/data/patric/single_species_datasets/moxifloxacin___260162261243005161/dataset.kover
+hp_choice: bound
+max_equiv_rules: 100000
+max_rules: 20
+model_type: ['conjunction', 'disjunction']
+n_cpu: 2
+output_dir: /scratch/adrouin/experiments/patric/single_species_datasets/scm_bound/moxifloxacin___260162261243005161/train_only
+p: [1.0, 1.778, 3.162, 5.623, 10.0]
+progress: False
+random_seed: 42
+split: train_only
+verbose: False
+
+Data summary:
+-------------
+Dataset file: /scratch/adrouin/data/patric/single_species_datasets/moxifloxacin___260162261243005161/dataset.kover
+Dataset UUID: f1efab30-0765-11e8-ac0b-001b2193b764
+Phenotype: Moxifloxacin___Mycobacterium_Tuberculosis___Metadata_Date_2018-01-29
+Genomic data type: contigs
+Split: train_only
+Number of genomes used for training: 699 (Group sensitive: 642, Group resistant: 57)
+Number of genomes used for testing: 0 (Group sensitive: 0, Group resistant: 0)
+Number of k-mers: 7176022
+K-mer size : 31
+K-mer filtering : singleton
+
+Hyperparameter Values:
+----------------------
+Selection strategy: bound selection (score = 0.19076)
+Model type: conjunction
+p: 1.000000
+Maximum number of rules: 1
+
+Metrics (training data)
+-----------------------
+Error Rate: 0.03577
+Sensitivity: 0.89474
+Specificity: 0.9704
+Precision: 0.72857
+Recall: 0.89474
+F1 Score: 0.80315
+True Positives: 51.0
+True Negatives: 623.0
+False Positives: 19.0
+False Negatives: 6.0
+
+Model (Conjunction - 1 rules):
+------------------------------
+Absence(ACCACCCGCACGGCGACGCGTCGATCTACGA) [Importance: 1.00, 3 equivalent rules]

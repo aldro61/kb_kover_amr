@@ -1,0 +1,66 @@
+Kover Learning Report
+=====================
+
+Running time: 0:59:55.999591
+
+Configuration:
+--------------
+bound_delta: 0.05
+bound_max_genome_size: 10461658
+dataset: /scratch/adrouin/data/patric/single_species_datasets/isoniazid___260162261243005161/dataset.kover
+hp_choice: bound
+max_equiv_rules: 100000
+max_rules: 20
+model_type: ['conjunction', 'disjunction']
+n_cpu: 2
+output_dir: /scratch/adrouin/experiments/patric/single_species_datasets/scm_bound/isoniazid___260162261243005161/train_only
+p: [1.0, 1.778, 3.162, 5.623, 10.0]
+progress: False
+random_seed: 42
+split: train_only
+verbose: False
+
+Data summary:
+-------------
+Dataset file: /scratch/adrouin/data/patric/single_species_datasets/isoniazid___260162261243005161/dataset.kover
+Dataset UUID: ab71ba6e-0755-11e8-abb7-001b2193b764
+Phenotype: Isoniazid___Mycobacterium_Tuberculosis___Metadata_Date_2018-01-29
+Genomic data type: contigs
+Split: train_only
+Number of genomes used for training: 5022 (Group sensitive: 3303, Group resistant: 1719)
+Number of genomes used for testing: 0 (Group sensitive: 0, Group resistant: 0)
+Number of k-mers: 11688883
+K-mer size : 31
+K-mer filtering : singleton
+
+Hyperparameter Values:
+----------------------
+Selection strategy: bound selection (score = 0.15795)
+Model type: disjunction
+p: 1.000000
+Maximum number of rules: 5
+
+Metrics (training data)
+-----------------------
+Error Rate: 0.03305
+Sensitivity: 0.94997
+Specificity: 0.97578
+Precision: 0.9533
+Recall: 0.94997
+F1 Score: 0.95163
+True Positives: 1633.0
+True Negatives: 3223.0
+False Positives: 80.0
+False Negatives: 86.0
+
+Model (Disjunction - 5 rules):
+------------------------------
+Absence(AAGGACGCGATCACCAGCGGCATCGAGGTCG) [Importance: 0.82, 15 equivalent rules]
+OR
+Absence(ACCTATCGTCTCGCCGCGGCCGGGCCGAAAT) [Importance: 0.33, 5 equivalent rules]
+OR
+Absence(ACAAGCGCCGACTGTCGGCGCTGGGGCCCGG) [Importance: 0.61, 1 equivalent rules]
+OR
+Absence(GACAGCGGGTTGTTCTGGTCCATGAATTGGC) [Importance: 0.17, 1 equivalent rules]
+OR
+Presence(ACAATTTATCCCAGCGAAGCGGGTCGGCACC) [Importance: 0.04, 31 equivalent rules]

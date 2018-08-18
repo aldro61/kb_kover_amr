@@ -1,0 +1,64 @@
+Kover Learning Report
+=====================
+
+Running time: 1:30:12.710993
+
+Configuration:
+--------------
+bound_delta: 0.05
+bound_max_genome_size: 10461658
+dataset: /scratch/adrouin/data/patric/single_species_datasets/tobramycin___2202579077548954665/dataset.kover
+hp_choice: bound
+max_equiv_rules: 100000
+max_rules: 20
+model_type: ['conjunction', 'disjunction']
+n_cpu: 2
+output_dir: /scratch/adrouin/experiments/patric/single_species_datasets/scm_bound/tobramycin___2202579077548954665/train_only
+p: [1.0, 1.778, 3.162, 5.623, 10.0]
+progress: False
+random_seed: 42
+split: train_only
+verbose: False
+
+Data summary:
+-------------
+Dataset file: /scratch/adrouin/data/patric/single_species_datasets/tobramycin___2202579077548954665/dataset.kover
+Dataset UUID: b5307b90-06dc-11e8-8504-001b2193b764
+Phenotype: Tobramycin___Klebsiella_Pneumoniae___Metadata_Date_2018-01-29
+Genomic data type: contigs
+Split: train_only
+Number of genomes used for training: 1693 (Group sensitive: 729, Group resistant: 964)
+Number of genomes used for testing: 0 (Group sensitive: 0, Group resistant: 0)
+Number of k-mers: 64441215
+K-mer size : 31
+K-mer filtering : singleton
+
+Hyperparameter Values:
+----------------------
+Selection strategy: bound selection (score = 0.25177)
+Model type: disjunction
+p: 1.000000
+Maximum number of rules: 4
+
+Metrics (training data)
+-----------------------
+Error Rate: 0.05611
+Sensitivity: 0.95643
+Specificity: 0.9273
+Precision: 0.94564
+Recall: 0.95643
+F1 Score: 0.95101
+True Positives: 922.0
+True Negatives: 676.0
+False Positives: 53.0
+False Negatives: 42.0
+
+Model (Disjunction - 4 rules):
+------------------------------
+Presence(AAGGGCTGGCGCCCTTGGCCGCCCCTCATGT) [Importance: 0.79, 19 equivalent rules]
+OR
+Presence(ACTCTGGCACTGGCTTCACTGGCATGGAAAA) [Importance: 0.52, 31 equivalent rules]
+OR
+Presence(AAAAATAAGCGTATCACGAGGCCCTTTCGTC) [Importance: 0.05, 30 equivalent rules]
+OR
+Presence(ACTATCAGGATCTCCCCTTGTGGAGGGGACT) [Importance: 0.30, 27 equivalent rules]

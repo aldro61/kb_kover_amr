@@ -1,0 +1,123 @@
+{
+    "ver": "0.0.1",
+    "authors": [
+        "adrouin"
+    ],
+    "contact": "aldro61@gmail.com",
+    "visible": true,
+    "categories": ["active"],
+    "widgets": {
+        "input": null,
+        "output": null
+    },
+    "parameters": [
+        {
+            "id": "assembly_input_ref",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": true,
+            "default_values": [ "" ],
+            "field_type": "text",
+            "text_options": {
+                "valid_ws_types": [ "KBaseGenomeAnnotations.Assembly", "KBaseGenomes.ContigSet" ]
+            }
+        },
+        {
+            "id": "species",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "" ],
+            "field_type": "dropdown",
+            "dropdown_options": {
+                "options": [
+                    {
+                        "display": "Acinetobacter baumannii",
+                        "value": "acinetobacter baumannii"
+                    },
+                    {
+                        "display": "Enterococcus faecium",
+                        "value": "enterococcus faecium"
+                    },
+                    {
+                        "display": "Escherichia coli",
+                        "value": "escherichia coli"
+                    },
+                    {
+                        "display": "Klebsiella pneumoniae",
+                        "value": "klebsiella pneumoniae"
+                    },
+                    {
+                        "display": "Mycobacterium tuberculosis",
+                        "value": "mycobacterium tuberculosis"
+                    },
+                    {
+                        "display": "Neisseria gonorrhoeae",
+                        "value": "neisseria gonorrhoeae"
+                    },
+                    {
+                        "display": "Peptoclostridium difficile",
+                        "value": "peptoclostridium difficile"
+                    },
+                    {
+                        "display": "Pseudomonas aeruginosa",
+                        "value": "pseudomonas aeruginosa"
+                    },
+                    {
+                        "display": "Salmonella enterica",
+                        "value": "salmonella enterica"
+                    },
+                    {
+                        "display": "Staphylococcus aureus",
+                        "value": "staphylococcus aureus"
+                    },
+                    {
+                        "display": "Staphylococcus haemolyticus",
+                        "value": "staphylococcus haemolyticus"
+                    },
+                    {
+                        "display": "Streptococcus pneumoniae",
+                        "value": "streptococcus pneumoniae"
+                    }
+                ]
+            }
+        }
+    ],
+    "behavior": {
+        "service-mapping": {
+            "url": "",
+            "name":"kover_amr",
+            "method": "predict_amr_phenotype",
+            "input_mapping": [
+                {
+                    "narrative_system_variable": "workspace",
+                    "target_property": "workspace_name"
+                },
+                {
+                    "input_parameter": "assembly_input_ref",
+                    "target_property": "assembly_input_ref",
+                    "target_type_transform": "resolved-ref"
+                },
+                {
+                    "input_parameter": "species",
+                    "target_property": "species"
+                }
+            ],
+            "output_mapping": [
+                {
+                    "service_method_output_path": [0,"report_name"],
+                    "target_property": "report_name"
+                },
+                {
+                    "service_method_output_path": [0,"report_ref"],
+                    "target_property": "report_ref"
+                },
+                {
+                    "narrative_system_variable": "workspace",
+                    "target_property": "workspace_name"
+                }
+            ]
+        }
+    },
+    "job_id_output_field": "docker"
+}

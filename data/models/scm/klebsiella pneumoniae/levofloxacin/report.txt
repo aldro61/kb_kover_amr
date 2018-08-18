@@ -1,0 +1,60 @@
+Kover Learning Report
+=====================
+
+Running time: 1:02:19.750602
+
+Configuration:
+--------------
+bound_delta: 0.05
+bound_max_genome_size: 10461658
+dataset: /scratch/adrouin/data/patric/single_species_datasets/levofloxacin___2202579077548954665/dataset.kover
+hp_choice: bound
+max_equiv_rules: 100000
+max_rules: 20
+model_type: ['conjunction', 'disjunction']
+n_cpu: 2
+output_dir: /scratch/adrouin/experiments/patric/single_species_datasets/scm_bound/levofloxacin___2202579077548954665/train_only
+p: [1.0, 1.778, 3.162, 5.623, 10.0]
+progress: False
+random_seed: 42
+split: train_only
+verbose: False
+
+Data summary:
+-------------
+Dataset file: /scratch/adrouin/data/patric/single_species_datasets/levofloxacin___2202579077548954665/dataset.kover
+Dataset UUID: 2120f34a-06a4-11e8-b0ae-001b2193b764
+Phenotype: Levofloxacin___Klebsiella_Pneumoniae___Metadata_Date_2018-01-29
+Genomic data type: contigs
+Split: train_only
+Number of genomes used for training: 1824 (Group sensitive: 362, Group resistant: 1462)
+Number of genomes used for testing: 0 (Group sensitive: 0, Group resistant: 0)
+Number of k-mers: 58582815
+K-mer size : 31
+K-mer filtering : singleton
+
+Hyperparameter Values:
+----------------------
+Selection strategy: bound selection (score = 0.16182)
+Model type: disjunction
+p: 1.000000
+Maximum number of rules: 2
+
+Metrics (training data)
+-----------------------
+Error Rate: 0.03235
+Sensitivity: 0.97401
+Specificity: 0.94199
+Precision: 0.98547
+Recall: 0.97401
+F1 Score: 0.9797
+True Positives: 1424.0
+True Negatives: 341.0
+False Positives: 21.0
+False Negatives: 38.0
+
+Model (Disjunction - 2 rules):
+------------------------------
+Absence(ACCACCCGCACGGCGACTCCGCGGTATACGA) [Importance: 0.99, 11 equivalent rules]
+OR
+Presence(AGCCGTTCACATTGGACTGACGCGCTGGCGC) [Importance: 0.01, 19 equivalent rules]

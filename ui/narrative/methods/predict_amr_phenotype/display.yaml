@@ -1,0 +1,41 @@
+#
+# define display information
+#
+name: Predict Antimicrobial Resistance
+tooltip: |
+    Machine learning models of antimicrobial resistance phenotypes
+screenshots: []
+
+icon: null
+
+#
+# define a set of similar methods that might be useful to the user
+#
+suggestions:
+    apps:
+        related:
+            []
+        next:
+            []
+    methods:
+        related:
+            []
+        next:
+            []
+
+#
+# Configure the display and description of parameters
+#
+parameters :
+    assembly_input_ref :
+        ui-name : |
+            Assembly
+        short-hint : |
+            An assembly for which to predict antimicriobial resistance phenotypes
+    species :
+        ui-name : |
+            Species
+        short-hint : |
+            The species of the assemblies (determines which models are used).
+description : |
+    <p>This application predicts antimicrobial resistance phenotypes based on models constructed using two rule-based machine learning algorithms that are implemented in Kover.</p>

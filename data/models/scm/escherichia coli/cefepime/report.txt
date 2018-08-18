@@ -1,0 +1,60 @@
+Kover Learning Report
+=====================
+
+Running time: 0:03:49.198656
+
+Configuration:
+--------------
+bound_delta: 0.05
+bound_max_genome_size: 10461658
+dataset: /scratch/adrouin/data/patric/single_species_datasets/cefepime___7053822222416630118/dataset.kover
+hp_choice: bound
+max_equiv_rules: 100000
+max_rules: 20
+model_type: ['conjunction', 'disjunction']
+n_cpu: 2
+output_dir: /scratch/adrouin/experiments/patric/single_species_datasets/scm_bound/cefepime___7053822222416630118/train_only
+p: [1.0, 1.778, 3.162, 5.623, 10.0]
+progress: False
+random_seed: 42
+split: train_only
+verbose: False
+
+Data summary:
+-------------
+Dataset file: /scratch/adrouin/data/patric/single_species_datasets/cefepime___7053822222416630118/dataset.kover
+Dataset UUID: 99785214-095d-11e8-8e35-001b2193b764
+Phenotype: Cefepime___Escherichia_Coli___Metadata_Date_2018-02-03
+Genomic data type: contigs
+Split: train_only
+Number of genomes used for training: 426 (Group sensitive: 394, Group resistant: 32)
+Number of genomes used for testing: 0 (Group sensitive: 0, Group resistant: 0)
+Number of k-mers: 35782454
+K-mer size : 31
+K-mer filtering : singleton
+
+Hyperparameter Values:
+----------------------
+Selection strategy: bound selection (score = 0.18554)
+Model type: disjunction
+p: 1.000000
+Maximum number of rules: 2
+
+Metrics (training data)
+-----------------------
+Error Rate: 0.01643
+Sensitivity: 0.9375
+Specificity: 0.98731
+Precision: 0.85714
+Recall: 0.9375
+F1 Score: 0.89552
+True Positives: 30.0
+True Negatives: 389.0
+False Positives: 5.0
+False Negatives: 2.0
+
+Model (Disjunction - 2 rules):
+------------------------------
+Presence(AAAAAATACTTCAGAGTGTACCTGCAAAGGT) [Importance: 0.77, 27 equivalent rules]
+OR
+Presence(AATAAAAAACACACGTGGAATTTAGGGACTA) [Importance: 0.37, 4 equivalent rules]

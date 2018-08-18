@@ -1,0 +1,6 @@
+>rule_id: 0___ex_1042___eq_5, left_child: leaf___ex_885___sensitive_12_0.01355932__resistant_873_0.98644068, right_child: 2___ex_157___eq_1, importance: 0.96
+AACTATTACTTGTTCAAGATTAGATATTTTC
+
+>rule_id: 2___ex_157___eq_1, left_child: leaf___ex_152___sensitive_144_0.94736842__resistant_8_0.05263158, right_child: leaf___ex_5___sensitive_0_0.00000000__resistant_5_1.00000000, importance: 0.04
+ATGATTCATTCCCAAAACAAGAGAAGCTAAC
+

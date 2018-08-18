@@ -1,0 +1,62 @@
+Kover Learning Report
+=====================
+
+Running time: 0:03:46.917500
+
+Configuration:
+--------------
+bound_delta: 0.05
+bound_max_genome_size: 10461658
+dataset: /scratch/adrouin/data/patric/single_species_datasets/amikacin___-3225223558739261696/dataset.kover
+hp_choice: bound
+max_equiv_rules: 100000
+max_rules: 20
+model_type: ['conjunction', 'disjunction']
+n_cpu: 2
+output_dir: /scratch/adrouin/experiments/patric/single_species_datasets/scm_bound/amikacin___-3225223558739261696/train_only
+p: [1.0, 1.778, 3.162, 5.623, 10.0]
+progress: False
+random_seed: 42
+split: train_only
+verbose: False
+
+Data summary:
+-------------
+Dataset file: /scratch/adrouin/data/patric/single_species_datasets/amikacin___-3225223558739261696/dataset.kover
+Dataset UUID: 99a32c1e-095d-11e8-9258-001b2193b764
+Phenotype: Amikacin___Acinetobacter_Baumannii___Metadata_Date_2018-02-03
+Genomic data type: contigs
+Split: train_only
+Number of genomes used for training: 256 (Group sensitive: 61, Group resistant: 195)
+Number of genomes used for testing: 0 (Group sensitive: 0, Group resistant: 0)
+Number of k-mers: 14599054
+K-mer size : 31
+K-mer filtering : singleton
+
+Hyperparameter Values:
+----------------------
+Selection strategy: bound selection (score = 0.49342)
+Model type: disjunction
+p: 1.778000
+Maximum number of rules: 3
+
+Metrics (training data)
+-----------------------
+Error Rate: 0.10938
+Sensitivity: 0.92308
+Specificity: 0.78689
+Precision: 0.93264
+Recall: 0.92308
+F1 Score: 0.92784
+True Positives: 180.0
+True Negatives: 48.0
+False Positives: 13.0
+False Negatives: 15.0
+
+Model (Disjunction - 3 rules):
+------------------------------
+Presence(AAAAAATATGCTTCTTTTAGAAGAGAGTAAT) [Importance: 0.85, 314 equivalent rules]
+OR
+Presence(AGATTGTATGGTCCCAAGAAGACATTAAAAG) [Importance: 0.21, 3 equivalent rules]
+OR
+Presence(AAACACAATGGGATACCTTTTGCCTGCACCC) [Importance: 0.09, 109 equivalent rules]

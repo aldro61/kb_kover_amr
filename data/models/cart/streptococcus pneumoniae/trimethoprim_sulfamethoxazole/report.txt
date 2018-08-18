@@ -1,0 +1,81 @@
+Kover Learning Report
+=====================
+
+Running time: 5:42:22.145634
+
+Configuration:
+--------------
+authorized_rules: 
+bound_delta: 0.05
+bound_max_genome_size: 10461658
+class_importance: ['0.25', '0.5', '0.75', '1.0']
+criterion: ['gini']
+dataset: /scratch/adrouin/patric_data/single_species_datasets/trimethoprim_sulfamethoxazole___49420779660966717/dataset.kover
+hp_choice: bound
+max_depth: [20]
+min_samples_split: [2]
+n_cpu: 2
+output_dir: /scratch/adrouin/patric_experiments/single_species_datasets/cart_bound/trimethoprim_sulfamethoxazole___49420779660966717/train_only
+progress: False
+split: train_only
+verbose: False
+
+Data summary:
+-------------
+Dataset file: /scratch/adrouin/patric_data/single_species_datasets/trimethoprim_sulfamethoxazole___49420779660966717/dataset.kover
+Dataset UUID: 54d22b2e-087e-11e8-b3f3-001b2193b764
+Phenotype: Trimethoprim_Sulfamethoxazole___Streptococcus_Pneumoniae___Metadata_Date_2018-01-29
+Split: train_only
+Number of genomes used for training: 2826 (Group sensitive: 639, Group resistant: 2187)
+Number of genomes used for testing: 0 (Group sensitive: 0, Group resistant: 0)
+
+Hyperparameter Values:
+----------------------
+Selection strategy: sample-compression bound (delta = 0.050, max-genome-size = 10461658, value = 0.24222)
+Criterion: gini
+Class importance: class sensitive: 0.250, class resistant: 0.250
+Maximum tree depth: 20
+Minimum samples to split a node (examples): 2.000
+Pruning alpha: 0.00176929
+
+Metrics (training data)
+-----------------------
+Error Rate: 0.05556
+Sensitivity: 0.97714
+Specificity: 0.83255
+Precision: 0.95232
+Recall: 0.97714
+F1 Score: 0.96457
+True Positives: 2137.0
+True Negatives: 532.0
+False Positives: 107.0
+False Negatives: 50.0
+
+Model (6 rules, depth = 3):
+
+        resistant
+       /
+    Presence(CTACATTATCGGTGGGAAGCAAATTTTTCAG)
+       \
+            resistant
+           /
+        Presence(GAAAGGAAAAGAAGCCTTCAGACACGGAAAC)
+           \
+            sensitive
+   /
+Presence(CCTTGCGAATCGCTTTGATCACTGGAACAAC)
+   \
+            sensitive
+           /
+        Presence(TATTTGGCAATCGTCCAGAACCTGTATTTCC)
+           \
+            resistant
+       /
+    Presence(CAAGAAAAGAATCTCTACATTATCGGTGGGA)
+       \
+            sensitive
+           /
+        Presence(AGCAATTGTCAAAAATCTTAAACAGAAATCC)
+           \
+            resistant
+

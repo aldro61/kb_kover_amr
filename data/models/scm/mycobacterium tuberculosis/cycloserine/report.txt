@@ -1,0 +1,60 @@
+Kover Learning Report
+=====================
+
+Running time: 0:01:48.830702
+
+Configuration:
+--------------
+bound_delta: 0.05
+bound_max_genome_size: 10461658
+dataset: /scratch/adrouin/data/patric/single_species_datasets/cycloserine___260162261243005161/dataset.kover
+hp_choice: bound
+max_equiv_rules: 100000
+max_rules: 20
+model_type: ['conjunction', 'disjunction']
+n_cpu: 2
+output_dir: /scratch/adrouin/experiments/patric/single_species_datasets/scm_bound/cycloserine___260162261243005161/train_only
+p: [1.0, 1.778, 3.162, 5.623, 10.0]
+progress: False
+random_seed: 42
+split: train_only
+verbose: False
+
+Data summary:
+-------------
+Dataset file: /scratch/adrouin/data/patric/single_species_datasets/cycloserine___260162261243005161/dataset.kover
+Dataset UUID: 5d40d132-074f-11e8-83ec-001b2193b764
+Phenotype: Cycloserine___Mycobacterium_Tuberculosis___Metadata_Date_2018-01-29
+Genomic data type: contigs
+Split: train_only
+Number of genomes used for training: 336 (Group sensitive: 264, Group resistant: 72)
+Number of genomes used for testing: 0 (Group sensitive: 0, Group resistant: 0)
+Number of k-mers: 4776616
+K-mer size : 31
+K-mer filtering : singleton
+
+Hyperparameter Values:
+----------------------
+Selection strategy: bound selection (score = 0.51050)
+Model type: disjunction
+p: 1.000000
+Maximum number of rules: 2
+
+Metrics (training data)
+-----------------------
+Error Rate: 0.16071
+Sensitivity: 0.34722
+Specificity: 0.97348
+Precision: 0.78125
+Recall: 0.34722
+F1 Score: 0.48077
+True Positives: 25.0
+True Negatives: 257.0
+False Positives: 7.0
+False Negatives: 47.0
+
+Model (Disjunction - 2 rules):
+------------------------------
+Absence(AAGGATGGTGACACCATCCCGTTGAAGCGCT) [Importance: 0.72, 86 equivalent rules]
+OR
+Presence(AAGTGTGGTATGTGCTCGAAGAGGTCATCGC) [Importance: 0.28, 31 equivalent rules]
