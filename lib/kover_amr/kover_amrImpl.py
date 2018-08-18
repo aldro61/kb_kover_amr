@@ -4,13 +4,16 @@
 import json
 import os
 
+from six import string_types
+import numpy as np
+import re
+
 from AssemblyUtil.AssemblyUtilClient import AssemblyUtil
 from Bio import SeqIO
 from Bio.Seq import Seq
 
 MODEL_DIR = "/data/models"
 
-# TODO: when looking for model k-mers also check for the reverse complement! (see SCMModel for example)
 class CARTModel():
     def __init__(self, path):
         """
@@ -18,6 +21,10 @@ class CARTModel():
 
         """
         self.path = path
+        try:
+            self.tree = TreeParser(os.path.join(self.path, "model.fasta")).get_tree()
+        except:
+            self.tree = get_majority_class_tree(self.path)
 
     def predict(self, kmers):
         """
@@ -26,7 +33,23 @@ class CARTModel():
         Resistant = 1, Susceptible = 0
 
         """
-        return 0
+        decision_path = []
+        def _apply_model(node):
+            if node.is_leaf:
+                return 1 if node.resistant > node.sensitive else 0
+                
+            else:
+                km = node.kmer
+                km_rc = str(Seq(km).reverse_complement())
+                if (km in kmers or km_rc in kmers):
+                    decision_path.append("Presence({})".format(km))
+                    return _apply_model(node.left)
+                else:
+                    decision_path.append("Absence({})".format(km))
+                    return _apply_model(node.right)
+            
+        predicted_pheno = _apply_model(self.tree)
+        return predicted_pheno, decision_path
 
 
 class SCMModel():
@@ -54,7 +77,7 @@ class SCMModel():
         hits = []
         for rule in self.rules:
             km = rule.replace("Presence(", "").replace("Absence(", "").replace(")", "")
-            km_rc = str(Seq("ACCTGAGCGAGACCAGAGAGACCA").reverse_complement())
+            km_rc = str(Seq(km).reverse_complement())
 
             if "Presence" in rule and (km in kmers or km_rc in kmers):
                 hits.append(rule)
@@ -67,6 +90,149 @@ class SCMModel():
             predicted_pheno = 1 if len(hits) > 0 else 0
         
         return predicted_pheno, hits
+        
+class TreeNode(object):
+    def __init__(self, kmer=None):
+        self.kmer = kmer
+        self.parent = None
+        
+    @property
+    def is_leaf(self):
+        return self.kmer is None
+        
+class TreeParser(object):
+    
+    def __init__(self, input_path):
+        self.input_path = input_path
+        self.tree = None
+        self.parse()
+        
+    def get_tree(self):
+        if self.tree is None:
+            raise RuntimeError("Tree is None")
+        else:
+            return self.tree
+        
+    def extract_rule_id(self, header):
+        return int(header.split(",")[0].split(":")[-1].split("___")[0])
+        
+    def extract_rule_node(self, header, kmer):
+        spt = header.split(",")
+        ex = spt[0].split(":")[-1].split("___")[1].split("_")[1]
+        eq = spt[0].split(":")[-1].split("___")[2].split("_")[1]
+        imp = float(spt[-1].split(":")[-1].lstrip())
+        node = TreeNode(kmer=kmer)
+        node.nb_examples = ex
+        node.eq_rules = eq
+        node.importance = imp
+        return node
+        
+    def extract_class_probas(self, header):
+        spt = header.split("___")[2].split("__")
+        classes, probas = zip(*[(class_info.split("_")[0], float(class_info.split("_")[2])) for class_info in spt])
+        return {c:p for c,p in zip(classes, probas)}
+        
+    def extract_children(self, header):
+        spt = header.split(",")
+        left = spt[1].split(":")[-1].strip()
+        right = spt[2].split(":")[-1].strip()
+
+        try:
+            left = int(left.split("___")[0])
+            left = self.rule_dict[left]
+        except:
+            class_probas = self.extract_class_probas(left)
+            ex = left.split("___")[1].split("_")[1]
+            left = TreeNode()
+            left.nb_examples = ex
+            left.resistant = class_probas["resistant"]
+            left.sensitive = class_probas["sensitive"]
+        
+        try:
+            right = int(right.split("___")[0])
+            right = self.rule_dict[right]
+        except:
+            class_probas = self.extract_class_probas(right)
+            ex = right.split("___")[1].split("_")[1]
+            right = TreeNode()
+            right.nb_examples = ex
+            right.resistant = class_probas["resistant"]
+            right.sensitive = class_probas["sensitive"]
+            
+        return left, right
+        
+    def find_root(self):
+        roots = [id for id in self.rule_dict if self.rule_dict[id].parent is None]
+        assert len(roots) == 1
+        return roots[0]
+            
+    def parse(self):
+        self.rules = list(zip(*fasta_to_contigs(self.input_path, return_headers=True)[::-1]))
+        
+        self.rule_dict = {self.extract_rule_id(header): self.extract_rule_node(header, kmer) for header, kmer in self.rules}
+        
+        for header, kmer in self.rules:
+            current_rule = self.rule_dict[self.extract_rule_id(header)]
+            
+            left, right = self.extract_children(header)
+            
+            current_rule.left = left
+            current_rule.right = right
+            
+            left.parent = current_rule
+            right.parent = current_rule
+        
+        self.tree = self.rule_dict[self.find_root()]
+
+def fasta_to_contigs(path, return_headers=False):
+    """
+    Reads a FASTA file and loads its contigs
+    Note: sequences are returned in upper case
+    """
+    contigs = []
+    headers = []
+    def add_contig(header, seq):
+        if len(seq) == 0:
+            raise Exception("Attempted to add a contig with length 0. Not normal! Path is " + path)
+        contigs.append(seq.upper())
+        headers.append(header.lower())
+
+    buffer = ""
+    header = ""
+    for l in open(path, "r"):
+        if l.startswith(">"):
+            # New contig starting
+
+            # Save current sequence and flush buffer
+            if len(buffer) > 0.:
+                add_contig(header, buffer)
+                buffer = ""
+
+            # Read contig header
+            header = l[1:].strip()
+
+        else:
+            # Accumulate DNA sequence
+            buffer += l.strip()
+
+    # Save final buffer
+    if buffer is not None and buffer != "":
+        add_contig(header, buffer)
+
+    if return_headers:
+        return contigs, headers
+    else:
+        return contigs
+        
+def get_majority_class_tree(path):
+    with open(os.path.join(path, "report.txt"), 'r') as report_file:
+        report = report_file.read()
+    m = re.search("training\: ([0-9]*) \(Group sensitive: ([0-9]*), Group resistant: ([0-9]*)\)", report)
+    tree = TreeNode()
+    tree.nb_examples = int(m.group(1))
+    tree.sensitive = int(m.group(2))
+    tree.resistant = int(m.group(3))
+    return tree
 
 #END_HEADER
 
@@ -124,7 +290,7 @@ class kover_amr:
         os.system("kmc_dump {0!s}/{1!s}.kmc.out {0!s}/{1!s}.{2:d}.kmrs".format(self.scratch, assembly_id, k))
         os.system("rm {0!s}/{1!s}.kmc.out.kmc_pre".format(self.scratch, assembly_id))
         os.system("rm {0!s}/{1!s}.kmc.out.kmc_suf".format(self.scratch, assembly_id))
-        kmers = [l.strip() for l in open("{0!s}/{1!s}.{2:d}.kmrs".format(self.scratch, assembly_id, k), "r")]
+        kmers = [l.strip().split('\t')[0] for l in open("{0!s}/{1!s}.{2:d}.kmrs".format(self.scratch, assembly_id, k), "r")]
         os.system("rm {0!s}/{1!s}.{2:d}.kmrs".format(self.scratch, assembly_id, k))
         return kmers
 
@@ -162,7 +328,7 @@ class kover_amr:
         for name in ['assembly_ref', 'species', 'workspace_name']:
             if name not in params:
                 raise ValueError('Parameter "' + name + '" is required but missing')
-        if not (isinstance(params['assembly_ref'], basestring) or isinstance(params['assembly_ref'], list)) or not len(params['assembly_ref']):
+        if not (isinstance(params['assembly_ref'], string_types) or isinstance(params['assembly_ref'], list)) or not len(params['assembly_ref']):
             raise ValueError('Pass in a valid assembly reference string(s)')
 
         # Extract params
