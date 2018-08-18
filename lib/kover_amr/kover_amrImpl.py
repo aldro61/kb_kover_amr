@@ -1,19 +1,72 @@
 # -*- coding: utf-8 -*-
 #BEGIN_HEADER
 # XXX: Do not delete the BEGIN and END tags. These ensure that the code is preserved when running "make"
+import json
 import os
 
 from AssemblyUtil.AssemblyUtilClient import AssemblyUtil
 from Bio import SeqIO
+from Bio.Seq import Seq
 
 MODEL_DIR = "/data/models"
 
-# TODO: when looking for model k-mers also check for the reverse complement!
+# TODO: when looking for model k-mers also check for the reverse complement! (see SCMModel for example)
 class CARTModel():
-    pass
+    def __init__(self, path):
+        """
+        Initialize the model based on description files
+
+        """
+        self.path = path
+
+    def predict(self, kmers):
+        """
+        Predict phenotype based on k-mers (dict)
+
+        Resistant = 1, Susceptible = 0
+
+        """
+        return 0
+
 
 class SCMModel():
-    pass
+    def __init__(self, path):
+        """
+        Initialize the model based on description files
+
+        """
+        self.path = path
+        model_info = json.load(open(os.path.join(path, "results.json"), "r"))["model"]
+        self.rules = model_info["rules"]
+        self.type = model_info["type"]
+        del model_info
+
+    def predict(self, kmers):
+        """
+        Predict phenotype based on k-mers (dict)
+
+        Resistant = 1, Susceptible = 0
+
+        """
+        if not isinstance(kmers, dict):
+            raise Exception("Expected k-mers the be a dict.")
+
+        hits = []
+        for rule in self.rules:
+            km = rule.replace("Presence(", "").replace("Absence(", "").replace(")", "")
+            km_rc = str(Seq("ACCTGAGCGAGACCAGAGAGACCA").reverse_complement())
+
+            if "Presence" in rule and (km in kmers or km_rc in kmers):
+                hits.append(rule)
+            elif "Absence" in rule and not (km in kmers or km_rc in kmers):
+                hits.append(rule)
+
+        if self.type == "conjunction":
+            predicted_pheno = 1 if len(hits) == len(self.rules) else 0
+        else:
+            predicted_pheno = 1 if len(hits) > 0 else 0
+        
+        return predicted_pheno, hits
 
 #END_HEADER
 
@@ -49,12 +102,13 @@ class kover_amr:
             name = name.replace("_", " ")
             return name
 
-        antibiotics = os.listdir(os.path.join(MODEL_DIR, "{}/{}".format(algorithm, species)))
+        model_root = os.path.join(MODEL_DIR, "{}/{}".format(algorithm, species))
+        antibiotics = os.listdir(model_root)
         
         if algorithm == "scm":
-            models = [SCMModel() for a in antibiotics]
+            models = [SCMModel(os.path.join(model_root, a)) for a in antibiotics]
         elif algorithm == "cart":
-            models = [CARTModel() for a in antibiotics]
+            models = [CARTModel(os.path.join(model_root, a)) for a in antibiotics]
         else:
             raise Exception("Unsupported algorithm")
 
@@ -119,8 +173,7 @@ class kover_amr:
         species = params["species"]
 
         # Get models for species
-        print "CART Models:", self.get_models_by_algorithm_and_species("cart", species)
-        print "SCM Models:", self.get_models_by_algorithm_and_species("scm", species)
+        scm_models = self.get_models_by_algorithm_and_species("scm", species)
 
         # Process assemblies
         assembly_util = AssemblyUtil(self.callback_url)
@@ -131,8 +184,16 @@ class kover_amr:
 
             # Extract the k-mers
             kmers = self.extract_kmers(assembly["path"], k=31)
+            kmers = dict(zip(kmers, [True] * len(kmers)))
             print "Kmers --", assembly["assembly_name"], ":", len(kmers)
 
+            # Make predictions (SCM)
+            for antibiotic, model in scm_models.iteritems():
+                print antibiotic, model.predict(kmers)
+
+            # Make predictions (CART)
+            for antibiotic, model in cart_models.iteritems():
+                print antibiotic, model.predict(kmers)
 
         output = {}
 

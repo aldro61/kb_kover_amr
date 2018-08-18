@@ -76,17 +76,8 @@ class kover_amrTest(unittest.TestCase):
         return self.__class__.ctx
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
-    def test_predict_amr_phenotype(self):
-        ref = "79/16/1"
-        result = self.getImpl().predict_amr_phenotype(self.getContext(), {
-            'workspace_name': self.getWsName(),
-            'assembly_ref': ref,
-            'species': "mycobacterium tuberculosis"
-        })
-        print result
-
     def test_predict_amr_phenotype_list_of_assemblies(self):
-        refs = ["79/16/1", "79/16/1", "79/16/1", "79/16/1"]
+        refs = ["79/16/1"]
         result = self.getImpl().predict_amr_phenotype(self.getContext(), {
             'workspace_name': self.getWsName(),
             'assembly_ref': refs,
