@@ -174,6 +174,7 @@ class kover_amr:
 
         # Get models for species
         scm_models = self.get_models_by_algorithm_and_species("scm", species)
+        cart_models = self.get_models_by_algorithm_and_species("cart", species)
 
         # Process assemblies
         assembly_util = AssemblyUtil(self.callback_url)
