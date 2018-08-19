@@ -77,10 +77,13 @@ class kover_amrTest(unittest.TestCase):
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
     def test_predict_amr_phenotype_list_of_assemblies(self):
-        refs = ["79/16/1"]
+        from time import time
+        st = time()
+        refs = ["79/16/1", "79/16/1", "79/16/1", "79/16/1"]
         result = self.getImpl().predict_amr_phenotype(self.getContext(), {
             'workspace_name': self.getWsName(),
             'assembly_ref': refs,
             'species': "mycobacterium tuberculosis"
         })
         print result
+        print "Took", time() - st, "seconds."

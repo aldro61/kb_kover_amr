@@ -11,6 +11,7 @@ import re
 from AssemblyUtil.AssemblyUtilClient import AssemblyUtil
 from Bio import SeqIO
 from Bio.Seq import Seq
+from KBaseReport.KBaseReportClient import KBaseReport
 
 MODEL_DIR = "/data/models"
 
@@ -33,6 +34,9 @@ class CARTModel():
         Resistant = 1, Susceptible = 0
 
         """
+        if not isinstance(kmers, set):
+            raise Exception("Expected k-mers the be a dict.")
+
         decision_path = []
         def _apply_model(node):
             if node.is_leaf:
@@ -71,7 +75,7 @@ class SCMModel():
         Resistant = 1, Susceptible = 0
 
         """
-        if not isinstance(kmers, dict):
+        if not isinstance(kmers, set):
             raise Exception("Expected k-mers the be a dict.")
 
         hits = []
@@ -184,6 +188,7 @@ class TreeParser(object):
         
         self.tree = self.rule_dict[self.find_root()]
 
+
 def fasta_to_contigs(path, return_headers=False):
     """
     Reads a FASTA file and loads its contigs
@@ -223,7 +228,8 @@ def fasta_to_contigs(path, return_headers=False):
         return contigs, headers
     else:
         return contigs
-        
+
+
 def get_majority_class_tree(path):
     with open(os.path.join(path, "report.txt"), 'r') as report_file:
         report = report_file.read()
@@ -290,7 +296,7 @@ class kover_amr:
         os.system("kmc_dump {0!s}/{1!s}.kmc.out {0!s}/{1!s}.{2:d}.kmrs".format(self.scratch, assembly_id, k))
         os.system("rm {0!s}/{1!s}.kmc.out.kmc_pre".format(self.scratch, assembly_id))
         os.system("rm {0!s}/{1!s}.kmc.out.kmc_suf".format(self.scratch, assembly_id))
-        kmers = [l.strip().split('\t')[0] for l in open("{0!s}/{1!s}.{2:d}.kmrs".format(self.scratch, assembly_id, k), "r")]
+        kmers = set([l.strip().split('\t')[0] for l in open("{0!s}/{1!s}.{2:d}.kmrs".format(self.scratch, assembly_id, k), "r")])
         os.system("rm {0!s}/{1!s}.{2:d}.kmrs".format(self.scratch, assembly_id, k))
         return kmers
 
@@ -351,14 +357,15 @@ class kover_amr:
 
             # Extract the k-mers
             kmers = self.extract_kmers(assembly["path"], k=31)
-            kmers = dict(zip(kmers, [True] * len(kmers)))
             print "Kmers --", assembly["assembly_name"], ":", len(kmers)
 
             # Make predictions (SCM)
+            print "SCM models"
             for antibiotic, model in scm_models.iteritems():
                 print antibiotic, model.predict(kmers)
 
             # Make predictions (CART)
+            print "CART models"
             for antibiotic, model in cart_models.iteritems():
                 print antibiotic, model.predict(kmers)
 
