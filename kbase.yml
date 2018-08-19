@@ -2,7 +2,7 @@ module-name:
     kover_amr
 
 module-description:
-    A KBase module
+    Machine learning models of antimicrobial resistance phenotypes
 
 service-language:
     python

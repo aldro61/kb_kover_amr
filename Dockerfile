@@ -8,6 +8,8 @@ MAINTAINER KBase Developer
 
 RUN apt-get update
 
+RUN python -m pip install --upgrade pip setuptools wheel
+
 # Update setuptools and pip
 RUN pip install --upgrade pip setuptools
 
