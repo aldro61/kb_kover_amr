@@ -8,22 +8,20 @@ MAINTAINER KBase Developer
 
 RUN apt-get update
 
-RUN python -m pip install --upgrade pip setuptools wheel
+# # Update setuptools and pip
+# RUN pip install --upgrade pip setuptools
 
-# Update setuptools and pip
-RUN pip install --upgrade pip setuptools
+# # Here we install a python coverage tool and an
+# # https library that is out of date in the base image.
+# RUN pip install coverage
 
-# Here we install a python coverage tool and an
-# https library that is out of date in the base image.
-RUN pip install coverage
-
-# update security libraries in the base image
-RUN pip install cffi --upgrade \
-    && pip install pyopenssl --upgrade \
-    && pip install ndg-httpsclient --upgrade \
-    && pip install pyasn1 --upgrade \
-    && pip install requests --upgrade \
-    && pip install 'requests[security]' --upgrade
+# # update security libraries in the base image
+# RUN pip install cffi --upgrade \
+#     && pip install pyopenssl --upgrade \
+#     && pip install ndg-httpsclient --upgrade \
+#     && pip install pyasn1 --upgrade \
+#     && pip install requests --upgrade \
+#     && pip install 'requests[security]' --upgrade
 
 # Install the KMC k-mer counter
 RUN wget https://github.com/refresh-bio/KMC/releases/download/v3.1.0/KMC3.1.0.linux.tar.gz \
