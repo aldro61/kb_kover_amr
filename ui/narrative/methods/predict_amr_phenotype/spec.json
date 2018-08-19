@@ -8,7 +8,7 @@
     "categories": ["active"],
     "widgets": {
         "input": null,
-        "output": null
+        "output": "no-display"
     },
     "parameters": [
         {
@@ -32,51 +32,51 @@
             "dropdown_options": {
                 "options": [
                     {
-                        "display": "Acinetobacter baumannii",
+                        "display": "Acinetobacter baumannii (7 antibiotics)",
                         "value": "acinetobacter baumannii"
                     },
                     {
-                        "display": "Enterococcus faecium",
+                        "display": "Enterococcus faecium (1 antibiotics)",
                         "value": "enterococcus faecium"
                     },
                     {
-                        "display": "Escherichia coli",
+                        "display": "Escherichia coli (16 antibiotics)",
                         "value": "escherichia coli"
                     },
                     {
-                        "display": "Klebsiella pneumoniae",
+                        "display": "Klebsiella pneumoniae (24 antibiotics)",
                         "value": "klebsiella pneumoniae"
                     },
                     {
-                        "display": "Mycobacterium tuberculosis",
+                        "display": "Mycobacterium tuberculosis (17 antibiotics)",
                         "value": "mycobacterium tuberculosis"
                     },
                     {
-                        "display": "Neisseria gonorrhoeae",
+                        "display": "Neisseria gonorrhoeae (4 antibiotics)",
                         "value": "neisseria gonorrhoeae"
                     },
                     {
-                        "display": "Peptoclostridium difficile",
+                        "display": "Peptoclostridium difficile (5 antibiotics)",
                         "value": "peptoclostridium difficile"
                     },
                     {
-                        "display": "Pseudomonas aeruginosa",
+                        "display": "Pseudomonas aeruginosa (4 antibiotics)",
                         "value": "pseudomonas aeruginosa"
                     },
                     {
-                        "display": "Salmonella enterica",
+                        "display": "Salmonella enterica (8 antibiotics)",
                         "value": "salmonella enterica"
                     },
                     {
-                        "display": "Staphylococcus aureus",
+                        "display": "Staphylococcus aureus (10 antibiotics)",
                         "value": "staphylococcus aureus"
                     },
                     {
-                        "display": "Staphylococcus haemolyticus",
+                        "display": "Staphylococcus haemolyticus (3 antibiotics)",
                         "value": "staphylococcus haemolyticus"
                     },
                     {
-                        "display": "Streptococcus pneumoniae",
+                        "display": "Streptococcus pneumoniae (8 antibiotics)",
                         "value": "streptococcus pneumoniae"
                     }
                 ]

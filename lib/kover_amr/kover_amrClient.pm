@@ -129,9 +129,6 @@ assembly_ref is a string
 AMRPredictionResults is a reference to a hash where the following keys are defined:
 	report_name has a value which is a string
 	report_ref has a value which is a string
-	n_models_evaluated has a value which is an int
-	n_positive_preds has a value which is an int
-	n_negative_preds has a value which is an int
 
 </pre>
 
@@ -149,9 +146,6 @@ assembly_ref is a string
 AMRPredictionResults is a reference to a hash where the following keys are defined:
 	report_name has a value which is a string
 	report_ref has a value which is a string
-	n_models_evaluated has a value which is an int
-	n_positive_preds has a value which is an int
-	n_negative_preds has a value which is an int
 
 
 =end text
@@ -383,9 +377,6 @@ Structure of output of AMR prediction
 a reference to a hash where the following keys are defined:
 report_name has a value which is a string
 report_ref has a value which is a string
-n_models_evaluated has a value which is an int
-n_positive_preds has a value which is an int
-n_negative_preds has a value which is an int
 
 </pre>
 
@@ -396,9 +387,6 @@ n_negative_preds has a value which is an int
 a reference to a hash where the following keys are defined:
 report_name has a value which is a string
 report_ref has a value which is a string
-n_models_evaluated has a value which is an int
-n_positive_preds has a value which is an int
-n_negative_preds has a value which is an int
 
 
 =end text

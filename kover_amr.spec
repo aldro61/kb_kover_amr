@@ -21,9 +21,6 @@ module kover_amr {
     typedef structure {
         string report_name;
         string report_ref;
-        int n_models_evaluated;
-        int n_positive_preds;
-        int n_negative_preds;
     } AMRPredictionResults;
 
     /*

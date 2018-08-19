@@ -42,9 +42,7 @@ class kover_amr(object):
            of String, parameter "workspace_name" of String
         :returns: instance of type "AMRPredictionResults" (Structure of
            output of AMR prediction) -> structure: parameter "report_name" of
-           String, parameter "report_ref" of String, parameter
-           "n_models_evaluated" of Long, parameter "n_positive_preds" of
-           Long, parameter "n_negative_preds" of Long
+           String, parameter "report_ref" of String
         """
         return self._client.call_method(
             'kover_amr.predict_amr_phenotype',

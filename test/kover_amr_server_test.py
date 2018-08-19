@@ -79,7 +79,7 @@ class kover_amrTest(unittest.TestCase):
     def test_predict_amr_phenotype_list_of_assemblies(self):
         from time import time
         st = time()
-        refs = ["79/16/1", "79/16/1", "79/16/1", "79/16/1"]
+        refs = ["79/16/1"]
         result = self.getImpl().predict_amr_phenotype(self.getContext(), {
             'workspace_name': self.getWsName(),
             'assembly_ref': refs,
@@ -87,3 +87,6 @@ class kover_amrTest(unittest.TestCase):
         })
         print result
         print "Took", time() - st, "seconds."
+
+        self.assertTrue(len(result[0]['report_name']))
+        self.assertTrue(len(result[0]['report_ref']))
