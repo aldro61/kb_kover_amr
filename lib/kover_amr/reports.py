@@ -5,7 +5,7 @@ Generate reports for the app
 from urllib import quote
 
 
-MODEL_BASE_URL = "https://github.com/aldro61/kb_kover_amr/tree/master/data/models/"
+MODEL_BASE_URL = "https://github.com/aldro61/kb_kover_amr/tree/master/data/models/{}/{}/{}/README.md"
 
 
 def generate_html_prediction_report(predictions, species):
@@ -43,7 +43,7 @@ def generate_html_prediction_report(predictions, species):
     <td>SCM</td>
     {}
 </tr>""".format(assembly, "\n".join(["<td class='{}'><a href='{}' target='_blank'>{}</a></td>".format("table-danger" if predictions[assembly]["scm"][a]["label"] == "resistant" else "table-success",
-                                                                                                      MODEL_BASE_URL + species + "/" + quote(a) + "/",
+                                                                                                      MODEL_BASE_URL.format("scm", quote(species.lower()), quote(a.lower().replace(" ", "_"))),
                                                                                                       predictions[assembly]["scm"][a]["label"]) for a in antibiotics]))
         prediction_table_rows.append(scm_row)
 
