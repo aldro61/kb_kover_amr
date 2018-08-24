@@ -31,23 +31,17 @@ def generate_html_prediction_report(predictions):
 
     result_table = \
 """
-<table>
-    <tr>
-        <th>Assembly</th>
-        <th>Model</th>
-        {}
-    </tr>
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Assembly</th>
+            <th scope="col">Model</th>
+            {}
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
 </table>
-
-<main role="main" class="container">
-
-    <div class="starter-template">
-    <h1>Bootstrap starter template</h1>
-    <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-    </div>
-
-</main>
-
-""".format("\n".join(["<th>" + a + "</th>" for a in antibiotics]))
+""".format("\n".join(["<th scope="col">" + a + "</th>" for a in antibiotics]))
 
     return report.format(result_table)
