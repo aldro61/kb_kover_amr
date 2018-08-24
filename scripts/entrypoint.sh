@@ -17,8 +17,12 @@ elif [ "${1}" = "async" ] ; then
   sh ./scripts/run_async.sh
 elif [ "${1}" = "init" ] ; then
   echo "Initialize module"
-  cp -r ./data/models /data/
-  touch /data/__READY__
+  cp -r data/models /data
+  if [ -d /data/models ] ; then
+  	touch /data/__READY__
+  else
+    echo "Model data initialization failed"
+  fi
 elif [ "${1}" = "bash" ] ; then
   bash
 elif [ "${1}" = "report" ] ; then
