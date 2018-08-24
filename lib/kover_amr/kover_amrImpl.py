@@ -117,6 +117,8 @@ class kover_amr:
             assemblies = params["assembly_input_ref"]
         species = params["species"]
 
+        raise Exception("; ".join(os.listdir(MODEL_DIR)))
+
         # Get models for species
         scm_models = self.get_models_by_algorithm_and_species("scm", species)
         cart_models = self.get_models_by_algorithm_and_species("cart", species)
