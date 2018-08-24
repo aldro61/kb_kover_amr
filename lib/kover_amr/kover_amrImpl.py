@@ -104,17 +104,17 @@ class kover_amr:
         #BEGIN predict_amr_phenotype
 
         # Input validation
-        for name in ['assembly_ref', 'species', 'workspace_name']:
+        for name in ['assembly_input_ref', 'species', 'workspace_name']:
             if name not in params:
                 raise ValueError('Parameter "' + name + '" is required but missing')
-        if not (isinstance(params['assembly_ref'], string_types) or isinstance(params['assembly_ref'], list)) or not len(params['assembly_ref']):
+        if not (isinstance(params['assembly_input_ref'], string_types) or isinstance(params['assembly_input_ref'], list)) or not len(params['assembly_input_ref']):
             raise ValueError('Pass in a valid assembly reference string(s)')
 
         # Extract params
-        if not isinstance(params["assembly_ref"], list):
-            assemblies = [params["assembly_ref"]]
+        if not isinstance(params["assembly_input_ref"], list):
+            assemblies = [params["assembly_input_ref"]]
         else:
-            assemblies = params["assembly_ref"]
+            assemblies = params["assembly_input_ref"]
         species = params["species"]
 
         # Get models for species

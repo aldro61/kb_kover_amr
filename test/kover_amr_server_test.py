@@ -82,7 +82,7 @@ class kover_amrTest(unittest.TestCase):
         refs = ["79/16/1"]
         result = self.getImpl().predict_amr_phenotype(self.getContext(), {
             'workspace_name': self.getWsName(),
-            'assembly_ref': refs,
+            'assembly_input_ref': refs,
             'species': "mycobacterium tuberculosis"
         })
         print result
