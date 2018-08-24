@@ -13,6 +13,7 @@ from KBaseReport.KBaseReportClient import KBaseReport
 
 from kover_amr.models.cart import CARTModel
 from kover_amr.models.scm import SCMModel
+from kover_amr.reports import generate_html_prediction_report
 
 
 MODEL_DIR = "./data/models"
@@ -122,8 +123,12 @@ class kover_amr:
         cart_models = self.get_models_by_algorithm_and_species("cart", species)
 
         # Process assemblies
+        predictions = {}
         assembly_util = AssemblyUtil(self.callback_url)
+        
         for assembly_ref in assemblies:
+            
+            assembly_predictions = {}
 
             # Get the fasta file path and other info
             assembly = assembly_util.get_assembly_as_fasta({'ref': assembly_ref})
@@ -134,13 +139,22 @@ class kover_amr:
 
             # Make predictions (SCM)
             print "SCM models"
+            assembly_predictions["scm"] = {}
             for antibiotic, model in scm_models.iteritems():
-                print antibiotic, model.predict(kmers)
+                p = model.predict(kmers)
+                assembly_predictions["scm"][antibiotic]["label"] = p[0]
+                assembly_predictions["scm"][antibiotic]["why"] = p[1]
 
             # Make predictions (CART)
             print "CART models"
+            assembly_predictions["cart"] = {}
             for antibiotic, model in cart_models.iteritems():
-                print antibiotic, model.predict(kmers)
+                p = model.predict(kmers)
+                assembly_predictions["cart"][antibiotic]["label"] = p[0]
+                assembly_predictions["cart"][antibiotic]["why"] = p[1]
+
+            predictions[assembly["assembly_name"]] = assembly_predictions
+            del assembly_predictions
 
         # Generate report
         text_message = "This is a test report for kover amr (text)"
@@ -149,7 +163,7 @@ class kover_amr:
         report_data = {
             'objects_created': [],
             'text_message': text_message,
-            'direct_html': "<html><h1>This is a test report for kover amr (html)</h1></html>"
+            'direct_html': generate_html_prediction_report(predictions)
         }
 
         # Initialize the report
