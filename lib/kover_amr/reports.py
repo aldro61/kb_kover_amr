@@ -23,11 +23,6 @@ def generate_html_prediction_report(predictions, species):
 </head>
 <body>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-  Launch demo modal
-</button>
-
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -69,8 +64,8 @@ def generate_html_prediction_report(predictions, species):
     <td>{}</td>
     <td>SCM</td>
     {}
-</tr>""".format(assembly, "\n".join(["<td class='{}'><a href='{}' target='_blank'>{}</a></td>".format("table-danger" if predictions[assembly]["scm"][a]["label"] == "resistant" else "table-success",
-                                                                                                      MODEL_BASE_URL.format("scm", quote(species.lower()), quote(a.lower().replace(" ", "_"))),
+</tr>""".format(assembly, "\n".join(["<td class='{}'><button type='button' class='btn btn-link' data-toggle='modal' data-target='#exampleModalCenter'>{}</button></td>".format("table-danger" if predictions[assembly]["scm"][a]["label"] == "resistant" else "table-success",
+                                                                                                      #MODEL_BASE_URL.format("scm", quote(species.lower()), quote(a.lower().replace(" ", "_"))),
                                                                                                       predictions[assembly]["scm"][a]["label"]) for a in antibiotics]))
         prediction_table_rows.append(scm_row)
 
