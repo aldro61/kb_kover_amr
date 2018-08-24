@@ -31,7 +31,7 @@ def generate_html_prediction_report(predictions):
 
     result_table = \
 """
-<table class="table table-striped table-bordered">
+<table class="table table-striped table-bordered table-hover">
     <thead class="thead-dark">
         <tr>
             <th scope="col">Assembly</th>
@@ -42,6 +42,6 @@ def generate_html_prediction_report(predictions):
     <tbody>
     </tbody>
 </table>
-""".format("\n".join(["<th scope="col">" + a + "</th>" for a in antibiotics]))
+""".format("\n".join(["<th scope='col'>" + a + "</th>" for a in antibiotics]))
 
     return report.format(result_table)
