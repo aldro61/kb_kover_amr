@@ -29,6 +29,25 @@ def generate_html_prediction_report(predictions):
 </html>
 """
 
+    prediction_table_rows = []
+    for assembly in predictions.keys():
+        scm_row = \
+"""
+<tr>
+    <td>{}</td>
+    <td>SCM</td>
+    {}
+</tr>""".format(assembly, "\n".join(["<td>{}</td>".format(predictions[assembly]["scm"][a]["label"]) for a in antibiotics]))
+
+        cart_row = \
+"""
+<tr>
+    <td></td>
+    <td>CART</td>
+    {}
+</tr>""".format("\n".join(["<td>{}</td>".format(predictions[assembly]["cart"][a]["label"]) for a in antibiotics]))
+
+
     result_table = \
 """
 <table class="table table-striped table-bordered table-hover">
@@ -40,8 +59,10 @@ def generate_html_prediction_report(predictions):
         </tr>
     </thead>
     <tbody>
+        {}
     </tbody>
 </table>
-""".format("\n".join(["<th scope='col'>" + a + "</th>" for a in antibiotics]))
+""".format("\n".join(["<th scope='col'>" + a + "</th>" for a in antibiotics]),
+           "\n".join(prediction_table_rows))
 
     return report.format(result_table)
