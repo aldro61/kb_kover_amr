@@ -8,6 +8,10 @@ from urllib import quote
 MODEL_BASE_URL = "https://github.com/aldro61/kb_kover_amr/tree/master/data/models/{}/{}/{}/README.md"
 
 
+def generate_explanation_id(assembly, antibiotic, species, algorithm):
+    return "exp" + str(hash(algorithm + assembly + antibiotic + species)).replace("-", "a")
+
+
 def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorithm, predicted_label, explanation):
     model_url = MODEL_BASE_URL.format(algorithm, quote(species.lower()), quote(antibiotic.lower().replace(" ", "_")))
 
@@ -70,7 +74,6 @@ def generate_html_prediction_report(predictions, species):
 """
 
     prediction_table_rows = []
-    explanation_dialogs = []
     for assembly in predictions.keys():
         scm_row = \
 """
@@ -79,21 +82,21 @@ def generate_html_prediction_report(predictions, species):
     <td>SCM</td>
     {}
 </tr>""".format(assembly, "\n".join(["<td class='{}'><button type='button' class='btn btn-link' data-toggle='modal' data-target='#{}'>{}</button>{}</td>".format("table-danger" if predictions[assembly]["scm"][a]["label"] == "resistant" else "table-success",
-                                                                                                      str(hash(assembly + a + species)).replace("-", "a"),
+                                                                                                      generate_explanation_id(assembly, a, species, "scm"),
                                                                                                       predictions[assembly]["scm"][a]["label"],
-                                                                                                      generate_explanation_dialog(str(hash(assembly + a + species)).replace("-", "a"), assembly, a, species, "scm", predictions[assembly]["scm"][a]["label"], predictions[assembly]["scm"][a]["why"])) for a in antibiotics]))
+                                                                                                      generate_explanation_dialog(generate_explanation_id(assembly, a, species, "scm"), assembly, a, species, "scm", predictions[assembly]["scm"][a]["label"], predictions[assembly]["scm"][a]["why"])) for a in antibiotics]))
         prediction_table_rows.append(scm_row)
-        #explanation_dialogs += [generate_explanation_dialog(assembly, a, species, "scm", predictions[assembly]["scm"][a]["label"], predictions[assembly]["scm"][a]["why"]) for a in antibiotics]
 
         cart_row = \
 """
 <tr>
     <td></td>
-    <td>CART</td>
+    <td>SCM</td>
     {}
-</tr>""".format("\n".join(["<td class='{}'><a href='{}' target='_blank'>{}</a></td>".format("table-danger" if predictions[assembly]["cart"][a]["label"] == "resistant" else "table-success",
-                                                                                            MODEL_BASE_URL.format("cart", quote(species.lower()), quote(a.lower().replace(" ", "_"))),
-                                                                                            predictions[assembly]["cart"][a]["label"]) for a in antibiotics]))
+</tr>""".format("\n".join(["<td class='{}'><button type='button' class='btn btn-link' data-toggle='modal' data-target='#{}'>{}</button>{}</td>".format("table-danger" if predictions[assembly]["cart"][a]["label"] == "resistant" else "table-success",
+                                                                                                      generate_explanation_id(assembly, a, species, "cart"),
+                                                                                                      predictions[assembly]["cart"][a]["label"],
+                                                                                                      generate_explanation_dialog(generate_explanation_id(assembly, a, species, "cart"), assembly, a, species, "cart", predictions[assembly]["cart"][a]["label"], predictions[assembly]["cart"][a]["why"])) for a in antibiotics]))
         prediction_table_rows.append(cart_row)
 
     result_table = \
@@ -112,7 +115,5 @@ def generate_html_prediction_report(predictions, species):
 </table>
 """.format("\n".join(["<th scope='col'>" + a + "</th>" for a in antibiotics]),
            "\n".join(prediction_table_rows))
-
-    #explanation_dialogs = "\n".join(explanation_dialogs)
 
     return report.format(result_table)
