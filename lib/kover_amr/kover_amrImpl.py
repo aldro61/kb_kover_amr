@@ -15,7 +15,7 @@ from kover_amr.models.cart import CARTModel
 from kover_amr.models.scm import SCMModel
 
 
-MODEL_DIR = "/data/models"
+MODEL_DIR = "./data/models"
 #END_HEADER
 
 
