@@ -38,6 +38,7 @@ def generate_html_prediction_report(predictions):
     <td>SCM</td>
     {}
 </tr>""".format(assembly, "\n".join(["<td>{}</td>".format(predictions[assembly]["scm"][a]["label"]) for a in antibiotics]))
+        prediction_table_rows.append(scm_row)
 
         cart_row = \
 """
@@ -46,7 +47,7 @@ def generate_html_prediction_report(predictions):
     <td>CART</td>
     {}
 </tr>""".format("\n".join(["<td>{}</td>".format(predictions[assembly]["cart"][a]["label"]) for a in antibiotics]))
-
+        prediction_table_rows.append(cart_row)
 
     result_table = \
 """
