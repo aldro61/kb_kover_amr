@@ -8,9 +8,7 @@ from urllib import quote
 MODEL_BASE_URL = "https://github.com/aldro61/kb_kover_amr/tree/master/data/models/{}/{}/{}/README.md"
 
 
-def generate_explanation_dialog(assembly, antibiotic, species, algorithm, predicted_label, explanation):
-    modal_id = str(hash(assembly + antibiotic + species))
-
+def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorithm, predicted_label, explanation):
     model_url = MODEL_BASE_URL.format(algorithm, quote(species.lower()), quote(antibiotic.lower().replace(" ", "_")))
 
     title = assembly.title() + " - " + antibiotic.title()
@@ -41,7 +39,7 @@ def generate_explanation_dialog(assembly, antibiotic, species, algorithm, predic
 </div>
 """
 
-    return modal_id, modal_template.format(modal_id, title, predicted_label, explanation, model_url)
+    return modal_template.format(modal_id, title, predicted_label, explanation, model_url)
 
 
 def generate_html_prediction_report(predictions, species):
@@ -58,8 +56,6 @@ def generate_html_prediction_report(predictions, species):
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
-{}
 
 {}
 
@@ -82,10 +78,12 @@ def generate_html_prediction_report(predictions, species):
     <td>{}</td>
     <td>SCM</td>
     {}
-</tr>""".format(assembly, "\n".join(["<td class='{}'><button type='button' class='btn btn-link' data-toggle='modal' data-target='#exampleModalCenter'>{}</button></td>".format("table-danger" if predictions[assembly]["scm"][a]["label"] == "resistant" else "table-success",
-                                                                                                      predictions[assembly]["scm"][a]["label"]) for a in antibiotics]))
+</tr>""".format(assembly, "\n".join(["<td class='{}'><button type='button' class='btn btn-link' data-toggle='modal' data-target='#{}'>{}</button>{}</td>".format("table-danger" if predictions[assembly]["scm"][a]["label"] == "resistant" else "table-success",
+                                                                                                      str(hash(assembly + antibiotic + species)),
+                                                                                                      predictions[assembly]["scm"][a]["label"],
+                                                                                                      generate_explanation_dialog(str(hash(assembly + antibiotic + species)), assembly, a, species, "scm", predictions[assembly]["scm"][a]["label"], predictions[assembly]["scm"][a]["why"])) for a in antibiotics]))
         prediction_table_rows.append(scm_row)
-        explanation_dialogs += [generate_explanation_dialog(assembly, a, species, "scm", predictions[assembly]["scm"][a]["label"], predictions[assembly]["scm"][a]["why"]) for a in antibiotics]
+        #explanation_dialogs += [generate_explanation_dialog(assembly, a, species, "scm", predictions[assembly]["scm"][a]["label"], predictions[assembly]["scm"][a]["why"]) for a in antibiotics]
 
         cart_row = \
 """
@@ -115,6 +113,6 @@ def generate_html_prediction_report(predictions, species):
 """.format("\n".join(["<th scope='col'>" + a + "</th>" for a in antibiotics]),
            "\n".join(prediction_table_rows))
 
-    explanation_dialogs = "\n".join(explanation_dialogs)
+    #explanation_dialogs = "\n".join(explanation_dialogs)
 
-    return report.format(result_table, explanation_dialogs)
+    return report.format(result_table)
