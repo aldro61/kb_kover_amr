@@ -54,7 +54,7 @@ def generate_html_prediction_report(predictions, species):
     <td>CART</td>
     {}
 </tr>""".format("\n".join(["<td class='{}'><a href='{}' target='_blank'>{}</a></td>".format("table-danger" if predictions[assembly]["cart"][a]["label"] == "resistant" else "table-success",
-                                                                                            MODEL_BASE_URL + species + "/" + quote(a) + "/",
+                                                                                            MODEL_BASE_URL.format("cart", quote(species.lower()), quote(a.lower().replace(" ", "_"))),
                                                                                             predictions[assembly]["cart"][a]["label"]) for a in antibiotics]))
         prediction_table_rows.append(cart_row)
 
