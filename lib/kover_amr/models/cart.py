@@ -44,8 +44,9 @@ class CARTModel():
                 else:
                     decision_path.append("Absence({})".format(km))
                     return _apply_model(node.right)
-            
-        predicted_pheno = _apply_model(self.tree)
+        
+        # Pretty printing
+        predicted_pheno = "resistant" if _apply_model(self.tree) == 1 else "susceptible"
         return predicted_pheno, decision_path
 
         

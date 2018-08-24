@@ -45,4 +45,6 @@ class SCMModel():
         else:
             predicted_pheno = 1 if len(hits) > 0 else 0
         
+        # Pretty printing
+        predicted_pheno = "resistant" if predicted_pheno == 1 else "susceptible"
         return predicted_pheno, hits
