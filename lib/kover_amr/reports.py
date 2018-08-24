@@ -79,9 +79,9 @@ def generate_html_prediction_report(predictions, species):
     <td>SCM</td>
     {}
 </tr>""".format(assembly, "\n".join(["<td class='{}'><button type='button' class='btn btn-link' data-toggle='modal' data-target='#{}'>{}</button>{}</td>".format("table-danger" if predictions[assembly]["scm"][a]["label"] == "resistant" else "table-success",
-                                                                                                      str(hash(assembly + antibiotic + species)),
+                                                                                                      str(hash(assembly + a + species)),
                                                                                                       predictions[assembly]["scm"][a]["label"],
-                                                                                                      generate_explanation_dialog(str(hash(assembly + antibiotic + species)), assembly, a, species, "scm", predictions[assembly]["scm"][a]["label"], predictions[assembly]["scm"][a]["why"])) for a in antibiotics]))
+                                                                                                      generate_explanation_dialog(str(hash(assembly + a + species)), assembly, a, species, "scm", predictions[assembly]["scm"][a]["label"], predictions[assembly]["scm"][a]["why"])) for a in antibiotics]))
         prediction_table_rows.append(scm_row)
         #explanation_dialogs += [generate_explanation_dialog(assembly, a, species, "scm", predictions[assembly]["scm"][a]["label"], predictions[assembly]["scm"][a]["why"]) for a in antibiotics]
 
