@@ -2,8 +2,13 @@
 Generate reports for the app
 
 """
+from urllib import quote
 
-def generate_html_prediction_report(predictions):
+
+MODEL_BASE_URL = "https://github.com/aldro61/kb_kover_amr/tree/master/data/models/"
+
+
+def generate_html_prediction_report(predictions, species):
 
     antibiotics = predictions[predictions.keys()[0]]["scm"].keys()
 
@@ -37,8 +42,9 @@ def generate_html_prediction_report(predictions):
     <td>{}</td>
     <td>SCM</td>
     {}
-</tr>""".format(assembly, "\n".join(["<td class='{}'>{}</td>".format("table-danger" if predictions[assembly]["scm"][a]["label"] == "resistant" else "table-success", 
-                                                                     predictions[assembly]["scm"][a]["label"]) for a in antibiotics]))
+</tr>""".format(assembly, "\n".join(["<td class='{}'><a href='{}' target='_blank'>{}</a></td>".format("table-danger" if predictions[assembly]["scm"][a]["label"] == "resistant" else "table-success",
+                                                                                                      MODEL_BASE_URL + species + "/" + quote(a) + "/",
+                                                                                                      predictions[assembly]["scm"][a]["label"]) for a in antibiotics]))
         prediction_table_rows.append(scm_row)
 
         cart_row = \
@@ -47,8 +53,9 @@ def generate_html_prediction_report(predictions):
     <td></td>
     <td>CART</td>
     {}
-</tr>""".format("\n".join(["<td class='{}'>{}</td>".format("table-danger" if predictions[assembly]["cart"][a]["label"] == "resistant" else "table-success", 
-                                                                     predictions[assembly]["cart"][a]["label"]) for a in antibiotics]))
+</tr>""".format("\n".join(["<td class='{}'><a href='{}' target='_blank'>{}</a></td>".format("table-danger" if predictions[assembly]["cart"][a]["label"] == "resistant" else "table-success",
+                                                                                            MODEL_BASE_URL + species + "/" + quote(a) + "/",
+                                                                                            predictions[assembly]["cart"][a]["label"]) for a in antibiotics]))
         prediction_table_rows.append(cart_row)
 
     result_table = \

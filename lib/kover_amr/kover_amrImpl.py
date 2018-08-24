@@ -162,11 +162,10 @@ class kover_amr:
         text_message = "This is a test report for kover amr (text)"
 
         # Data for creating the report, referencing the assembly we uploaded
-        print generate_html_prediction_report(predictions)
         report_data = {
             'objects_created': [],
             'text_message': text_message,
-            'direct_html': generate_html_prediction_report(predictions)
+            'direct_html': generate_html_prediction_report(predictions, species)
         }
 
         # Initialize the report
