@@ -16,7 +16,7 @@ from kover_amr.models.scm import SCMModel
 from kover_amr.reports import generate_html_prediction_report
 
 
-MODEL_DIR = "./data/models"
+MODEL_DIR = "/kb/module/data/models"
 #END_HEADER
 
 
@@ -142,6 +142,7 @@ class kover_amr:
             assembly_predictions["scm"] = {}
             for antibiotic, model in scm_models.iteritems():
                 p = model.predict(kmers)
+                assembly_predictions["scm"][antibiotic] = {}
                 assembly_predictions["scm"][antibiotic]["label"] = p[0]
                 assembly_predictions["scm"][antibiotic]["why"] = p[1]
 
@@ -150,6 +151,7 @@ class kover_amr:
             assembly_predictions["cart"] = {}
             for antibiotic, model in cart_models.iteritems():
                 p = model.predict(kmers)
+                assembly_predictions["cart"][antibiotic] = {}
                 assembly_predictions["cart"][antibiotic]["label"] = p[0]
                 assembly_predictions["cart"][antibiotic]["why"] = p[1]
 
@@ -160,6 +162,7 @@ class kover_amr:
         text_message = "This is a test report for kover amr (text)"
 
         # Data for creating the report, referencing the assembly we uploaded
+        print generate_html_prediction_report(predictions)
         report_data = {
             'objects_created': [],
             'text_message': text_message,
