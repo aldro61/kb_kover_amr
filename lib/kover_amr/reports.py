@@ -14,7 +14,7 @@ def generate_explanation_id(assembly, antibiotic, species, algorithm):
 def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorithm, predicted_label, evidence):
     model_url = MODEL_BASE_URL.format(algorithm, quote(species.lower()), quote(antibiotic.lower().replace(" ", "_")))
 
-    title = assembly.title() + " - " + antibiotic.title()
+    title = assembly.title()
 
     if algorithm == "cart":
         explanation = \
@@ -58,7 +58,12 @@ def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorit
       </div>
       <div class="modal-body">
         <p>
-            Prediction: {2!s}
+            <div class="card text-white {6!s} mb-3" style="max-width: 18rem;">
+                <div class="card-header">Predicted phenotype</div>
+                <div class="card-body">
+                    <p class="card-text">{5!s}.title() {2!s}</p>
+                </div>
+            </div>
         </p>
         <p>
             {3!s}
@@ -72,7 +77,7 @@ def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorit
 </div>
 """
 
-    return modal_template.format(modal_id, title, predicted_label, explanation, model_url)
+    return modal_template.format(modal_id, title, predicted_label, explanation, model_url, antibiotic, "bg-success" if predicted_label == "susceptible" else "bg-danger")
 
 
 def generate_html_prediction_report(predictions, species):
