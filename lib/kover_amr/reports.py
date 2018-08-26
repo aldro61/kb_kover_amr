@@ -100,13 +100,13 @@ def generate_html_prediction_report(predictions, species):
         tr,
         tbody,
         th,
-        td {
+        td {{
             text-align: center;
-        }
+        }}
 
-        .table td {
+        .table td {{
         text-align: center;   
-        }
+        }}
     </style>
 
 </head>
