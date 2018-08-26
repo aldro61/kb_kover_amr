@@ -118,6 +118,7 @@ def generate_html_prediction_report(predictions, species):
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
 </body>
@@ -132,7 +133,7 @@ def generate_html_prediction_report(predictions, species):
     <td>{}</td>
     <td>SCM</td>
     {}
-</tr>""".format(assembly, "\n".join(["<td class='{}'><button type='button' class='btn btn-link btn-sm' data-toggle='modal' data-target='#{}'>{}</button>{}</td>".format("table-danger" if predictions[assembly]["scm"][a]["label"] == "resistant" else "table-success",
+</tr>""".format(assembly, "\n".join(["<td class='{}'><span data-toggle='tooltip' title='Click for explanation'><button type='button' class='btn btn-link btn-sm' data-toggle='modal' data-target='#{}'>{}</button></span>{}</td>".format("table-danger" if predictions[assembly]["scm"][a]["label"] == "resistant" else "table-success",
                                                                                                       generate_explanation_id(assembly, a, species, "scm"),
                                                                                                       predictions[assembly]["scm"][a]["label"],
                                                                                                       generate_explanation_dialog(generate_explanation_id(assembly, a, species, "scm"), assembly, a, species, "scm", predictions[assembly]["scm"][a]["label"], predictions[assembly]["scm"][a]["why"])) for a in antibiotics]))
@@ -144,7 +145,7 @@ def generate_html_prediction_report(predictions, species):
     <td></td>
     <td>CART</td>
     {}
-</tr>""".format("\n".join(["<td class='{}'><button type='button' class='btn btn-link btn-sm' data-toggle='modal' data-target='#{}'>{}</button>{}</td>".format("table-danger" if predictions[assembly]["cart"][a]["label"] == "resistant" else "table-success",
+</tr>""".format("\n".join(["<td class='{}'><span data-toggle='tooltip' title='Click for explanation'><button type='button' class='btn btn-link btn-sm' data-toggle='modal' data-target='#{}'>{}</button></span>{}</td>".format("table-danger" if predictions[assembly]["cart"][a]["label"] == "resistant" else "table-success",
                                                                                                       generate_explanation_id(assembly, a, species, "cart"),
                                                                                                       predictions[assembly]["cart"][a]["label"],
                                                                                                       generate_explanation_dialog(generate_explanation_id(assembly, a, species, "cart"), assembly, a, species, "cart", predictions[assembly]["cart"][a]["label"], predictions[assembly]["cart"][a]["why"])) for a in antibiotics]))
