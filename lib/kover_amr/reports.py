@@ -92,6 +92,23 @@ def generate_html_prediction_report(predictions, species):
 
     <!-- Bootstrap core CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Table text centering -->
+    <style>
+        table,
+        thead,
+        tr,
+        tbody,
+        th,
+        td {
+            text-align: center;
+        }
+
+        .table td {
+        text-align: center;   
+        }
+    </style>
+
 </head>
 <body>
 
@@ -115,7 +132,7 @@ def generate_html_prediction_report(predictions, species):
     <td>{}</td>
     <td>SCM</td>
     {}
-</tr>""".format(assembly, "\n".join(["<td class='{}'><button type='button' class='btn btn-link' data-toggle='modal' data-target='#{}'>{}</button>{}</td>".format("table-danger" if predictions[assembly]["scm"][a]["label"] == "resistant" else "table-success",
+</tr>""".format(assembly, "\n".join(["<td class='{}'><button type='button' class='btn btn-link btn-sm' data-toggle='modal' data-target='#{}'>{}</button>{}</td>".format("table-danger" if predictions[assembly]["scm"][a]["label"] == "resistant" else "table-success",
                                                                                                       generate_explanation_id(assembly, a, species, "scm"),
                                                                                                       predictions[assembly]["scm"][a]["label"],
                                                                                                       generate_explanation_dialog(generate_explanation_id(assembly, a, species, "scm"), assembly, a, species, "scm", predictions[assembly]["scm"][a]["label"], predictions[assembly]["scm"][a]["why"])) for a in antibiotics]))
@@ -127,7 +144,7 @@ def generate_html_prediction_report(predictions, species):
     <td></td>
     <td>CART</td>
     {}
-</tr>""".format("\n".join(["<td class='{}'><button type='button' class='btn btn-link' data-toggle='modal' data-target='#{}'>{}</button>{}</td>".format("table-danger" if predictions[assembly]["cart"][a]["label"] == "resistant" else "table-success",
+</tr>""".format("\n".join(["<td class='{}'><button type='button' class='btn btn-link btn-sm' data-toggle='modal' data-target='#{}'>{}</button>{}</td>".format("table-danger" if predictions[assembly]["cart"][a]["label"] == "resistant" else "table-success",
                                                                                                       generate_explanation_id(assembly, a, species, "cart"),
                                                                                                       predictions[assembly]["cart"][a]["label"],
                                                                                                       generate_explanation_dialog(generate_explanation_id(assembly, a, species, "cart"), assembly, a, species, "cart", predictions[assembly]["cart"][a]["label"], predictions[assembly]["cart"][a]["why"])) for a in antibiotics]))
