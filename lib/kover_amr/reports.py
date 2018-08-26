@@ -58,9 +58,9 @@ def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorit
       </div>
       <div class="modal-body">
         <p>
-            <div class="card text-white {6!s} mb-3" style="max-width: 18rem;">
+            <div class="card {6!s} mb-3" style="max-width: 18rem;">
                 <div class="card-header">Predicted phenotype</div>
-                <div class="card-body">
+                <div class="card-body text-danger">
                     <p class="card-text">{5!s} {2!s}</p>
                 </div>
             </div>
