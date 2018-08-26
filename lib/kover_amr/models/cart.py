@@ -47,7 +47,7 @@ class CARTModel():
         
         # Pretty printing
         predicted_pheno = "resistant" if _apply_model(self.tree) == 1 else "susceptible"
-        return predicted_pheno, decision_path
+        return predicted_pheno, {"decision_path": decision_path}
 
         
 class TreeNode(object):

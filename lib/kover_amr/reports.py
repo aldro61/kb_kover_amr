@@ -11,13 +11,31 @@ MODEL_BASE_URL = "https://github.com/aldro61/kb_kover_amr/tree/master/data/model
 def generate_explanation_id(assembly, antibiotic, species, algorithm):
     return "exp" + str(hash(algorithm + assembly + antibiotic + species)).replace("-", "a")
 
-
 def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorithm, predicted_label, explanation):
     model_url = MODEL_BASE_URL.format(algorithm, quote(species.lower()), quote(antibiotic.lower().replace(" ", "_")))
 
     title = assembly.title() + " - " + antibiotic.title()
 
-    explanation = "\n".join(explanation)
+    if algorithm == "cart":
+        # SCM if susceptible, then say why it was false. IF true say why it was true
+        # CART just show the path
+        explanation = "\n".join(explanation)
+    elif algorithm == "scm":
+        explanation = \
+    """
+    <div class="card" style="width: 18rem;">
+    <div class="card-header">
+        Evidence
+    </div>
+    <ul class="list-group list-group-flush">
+        {}
+    </ul>
+    </div>
+    """.format(["<li class='list-group-item'>{}</li>".format(r) for r in explanation["rules_true"]]
+                if len(explanation["rules_true"]) > 0 
+                else "<li class='list-group-item'>No evidence of resistance found.</li>")
+    else:
+        raise Exception("invalid algorithm")
 
     modal_template = \
 """
@@ -31,9 +49,12 @@ def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorit
         </button>
       </div>
       <div class="modal-body">
-        Prediction: {2!s}<br /><br />
-        Reason:<br />
-        {3!s}
+        <p>
+            Prediction: {2!s}
+        </p>
+        <p>
+            {3!s}
+        </p>
       </div>
       <div class="modal-footer">
         <a href="{4!s}" target="_blank" class="btn btn-primary">View model</a>
@@ -91,7 +112,7 @@ def generate_html_prediction_report(predictions, species):
 """
 <tr>
     <td></td>
-    <td>SCM</td>
+    <td>CART</td>
     {}
 </tr>""".format("\n".join(["<td class='{}'><button type='button' class='btn btn-link' data-toggle='modal' data-target='#{}'>{}</button>{}</td>".format("table-danger" if predictions[assembly]["cart"][a]["label"] == "resistant" else "table-success",
                                                                                                       generate_explanation_id(assembly, a, species, "cart"),
