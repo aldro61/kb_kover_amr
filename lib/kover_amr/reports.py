@@ -61,7 +61,7 @@ def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorit
             <div class="card text-white {6!s} mb-3" style="max-width: 18rem;">
                 <div class="card-header">Predicted phenotype</div>
                 <div class="card-body">
-                    <p class="card-text">{5!s}.title() {2!s}</p>
+                    <p class="card-text">{5!s} {2!s}</p>
                 </div>
             </div>
         </p>
@@ -77,7 +77,7 @@ def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorit
 </div>
 """
 
-    return modal_template.format(modal_id, title, predicted_label, explanation, model_url, antibiotic, "bg-success" if predicted_label == "susceptible" else "bg-danger")
+    return modal_template.format(modal_id, title, predicted_label, explanation, model_url, antibiotic.title(), "border-success" if predicted_label == "susceptible" else "border-danger")
 
 
 def generate_html_prediction_report(predictions, species):
