@@ -17,14 +17,9 @@ def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorit
     title = assembly.title() + " - " + antibiotic.title()
 
     if algorithm == "cart":
-        # SCM if susceptible, then say why it was false. IF true say why it was true
-        # CART just show the path
-        explanation = "\n".join(evidence)
-
-    elif algorithm == "scm":
         explanation = \
     """
-    <div class="card" style="width: 18rem;">
+    <div class="card">
     <div class="card-header">
         Evidence
     </div>
@@ -32,7 +27,21 @@ def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorit
         {}
     </ul>
     </div>
-    """.format("\n".join(["<li class='list-group-item'>{}</li>".format(r) for r in evidence]) if len(evidence) > 0 else "<li class='list-group-item'>No evidence of resistance found.</li>")
+    """.format("\n".join(["<li class='list-group-item'>{}</li>".format(r) for r in evidence]) if len(evidence) > 0 else "<li class='list-group-item'>No predictive genomic markers of the phenotype were identified by the learning algorithm. The model always predicts this class, since it was the most abundant in the training data.</li>")
+
+    elif algorithm == "scm":
+        explanation = \
+    """
+    <div class="card">
+    <div class="card-header">
+        Evidence
+    </div>
+    <ul class="list-group list-group-flush">
+        {}
+    </ul>
+    </div>
+    """.format("\n".join(["<li class='list-group-item'>{}</li>".format(r) for r in evidence]) if len(evidence) > 0 and prediction == "resistant" else "<li class='list-group-item'>No evidence of resistance found.</li>")
+    
     else:
         raise Exception("invalid algorithm")
 
