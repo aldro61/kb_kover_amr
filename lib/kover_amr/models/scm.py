@@ -50,4 +50,4 @@ class SCMModel():
         
         # Pretty printing
         predicted_pheno = "resistant" if predicted_pheno == 1 else "susceptible"
-        return predicted_pheno, {"rules_true": rules_true, "rules_false": rules_false, "model_type": self.type}
+        return predicted_pheno, rules_true

@@ -11,7 +11,7 @@ MODEL_BASE_URL = "https://github.com/aldro61/kb_kover_amr/tree/master/data/model
 def generate_explanation_id(assembly, antibiotic, species, algorithm):
     return "exp" + str(hash(algorithm + assembly + antibiotic + species)).replace("-", "a")
 
-def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorithm, predicted_label, explanation):
+def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorithm, predicted_label, evidence):
     model_url = MODEL_BASE_URL.format(algorithm, quote(species.lower()), quote(antibiotic.lower().replace(" ", "_")))
 
     title = assembly.title() + " - " + antibiotic.title()
@@ -19,7 +19,8 @@ def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorit
     if algorithm == "cart":
         # SCM if susceptible, then say why it was false. IF true say why it was true
         # CART just show the path
-        explanation = "\n".join(explanation)
+        explanation = "\n".join(evidence)
+
     elif algorithm == "scm":
         explanation = \
     """
@@ -31,8 +32,8 @@ def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorit
         {}
     </ul>
     </div>
-    """.format(["<li class='list-group-item'>{}</li>".format(r) for r in explanation["rules_true"]]
-                if len(explanation["rules_true"]) > 0 
+    """.format(["<li class='list-group-item'>{}</li>".format(r) for r in evidence
+                if len(evidence) > 0 
                 else "<li class='list-group-item'>No evidence of resistance found.</li>")
     else:
         raise Exception("invalid algorithm")
