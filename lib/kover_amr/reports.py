@@ -32,9 +32,7 @@ def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorit
         {}
     </ul>
     </div>
-    """.format(["<li class='list-group-item'>{}</li>".format(r) for r in evidence
-                if len(evidence) > 0 
-                else "<li class='list-group-item'>No evidence of resistance found.</li>")
+    """.format("\n".join(["<li class='list-group-item'>{}</li>".format(r) for r in evidence]) if len(evidence) > 0 else "<li class='list-group-item'>No evidence of resistance found.</li>")
     else:
         raise Exception("invalid algorithm")
 
