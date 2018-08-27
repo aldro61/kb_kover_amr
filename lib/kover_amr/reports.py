@@ -14,7 +14,7 @@ def generate_explanation_id(assembly, antibiotic, species, algorithm):
 def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorithm, predicted_label, evidence):
     model_url = MODEL_BASE_URL.format(algorithm, quote(species.lower()), quote(antibiotic.lower().replace(" ", "_")))
 
-    title = assembly.title()
+    title = assembly.title() + " - " + algorithm.upper()
 
     if algorithm == "cart":
         explanation = \

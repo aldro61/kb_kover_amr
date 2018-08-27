@@ -1,7 +1,7 @@
 #
 # define display information
 #
-name: Predict Antimicrobial Resistance
+name: Kover - Antimicrobial Resistance Prediction
 tooltip: |
     Machine learning models of antimicrobial resistance phenotypes
 screenshots: []
@@ -39,3 +39,5 @@ parameters :
             The species of the assemblies (determines which models are used).
 description : |
     <p>This application predicts antimicrobial resistance phenotypes based on models constructed using two rule-based machine learning algorithms that are implemented in Kover.</p>
+
+icon : icon.png
