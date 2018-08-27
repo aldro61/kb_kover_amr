@@ -164,6 +164,7 @@ def generate_html_prediction_report(predictions, species):
         {}
     </tbody>
 </table>
+<span class="font-weight-light">* Click on a prediction for details.</span>
 """.format("\n".join(["<th scope='col'>" + a + "</th>" for a in antibiotics]),
            "\n".join(prediction_table_rows))
 
