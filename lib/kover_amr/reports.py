@@ -2,9 +2,6 @@
 Generate reports for the app
 
 """
-import os
-import uuid
-
 from urllib import quote
 
 
@@ -12,18 +9,9 @@ MODEL_BASE_URL = "https://github.com/aldro61/kb_kover_amr/tree/master/data/model
 
 
 def generate_explanation_id(assembly, antibiotic, species, algorithm):
-    """
-    The unique identifier of the modal dialog that explains a prediction.
-
-    """
     return "exp" + str(hash(algorithm + assembly + antibiotic + species)).replace("-", "a")
 
-
 def generate_explanation_dialog(modal_id, assembly, antibiotic, species, algorithm, predicted_label, evidence):
-    """
-    The HTML prediction report
-
-    """
     model_url = MODEL_BASE_URL.format(algorithm, quote(species.lower()), quote(antibiotic.lower().replace(" ", "_")))
 
     title = assembly.title() + " - " + algorithm.upper()
@@ -181,26 +169,3 @@ def generate_html_prediction_report(predictions, species):
            "\n".join(prediction_table_rows))
 
     return report.format(result_table)
-
-
-def generate_csv_prediction_report(predictions, species, scratch_path):
-    antibiotics = predictions[predictions.keys()[0]]["scm"].keys()
-
-    csv = "assembly\tmodel\t" + "\t".join(antibiotics) + "\n"
-
-    for assembly in predictions.keys():
-        scm_row = "{}\tSCM\t".format(assembly) + "\t".join([predictions[assembly]["scm"][a]["label"] for a in antibiotics]) + "\n"
-        cart_row = "\tCART\t" + "\t".join([predictions[assembly]["cart"][a]["label"] for a in antibiotics]) + "\n"
-        csv += scm_row + cart_row
-
-    output_path = os.path.join(scratch_path, str(uuid.uuid4()))
-    os.mkdir(output_path)
-    
-    output_file = os.path.join(output_path, "amr_predictions.tsv")
-
-    open(output_file, "w").write(csv)
-
-    return [{"path": output_file,
-             "name": os.path.basename(output_file),
-             "label": os.path.basename(output_file),
-             "description": "Antimicrobial resistance predictions in TSV format."}]
