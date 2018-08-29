@@ -85,7 +85,6 @@ class kover_amrTest(unittest.TestCase):
             'assembly_input_ref': refs,
             'species': "mycobacterium tuberculosis"
         })
-        print result
         print "Took", time() - st, "seconds."
 
         self.assertTrue(len(result[0]['report_name']))

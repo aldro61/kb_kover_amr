@@ -13,7 +13,7 @@ from KBaseReport.KBaseReportClient import KBaseReport
 
 from kover_amr.models.cart import CARTModel
 from kover_amr.models.scm import SCMModel
-from kover_amr.reports import generate_html_prediction_report
+from kover_amr.reports import generate_csv_prediction_report, generate_html_prediction_report
 
 
 MODEL_DIR = "/kb/module/data/models"
@@ -159,20 +159,17 @@ class kover_amr:
             del assembly_predictions
 
         # Generate report
-        text_message = "This is a test report for kover amr (text)"
-
-        # Data for creating the report, referencing the assembly we uploaded
         report_data = {
             'objects_created': [],
-            'text_message': text_message,
-            'direct_html': generate_html_prediction_report(predictions, species)
+            'direct_html': generate_html_prediction_report(predictions, species),
         }
 
         # Initialize the report
         kbase_report = KBaseReport(self.callback_url)
         report = kbase_report.create({
             'report': report_data,
-            'workspace_name': params['workspace_name']
+            'workspace_name': params['workspace_name'],
+            'file_links': generate_csv_prediction_report(predictions, species, self.scratch)
         })
 
         output = {
