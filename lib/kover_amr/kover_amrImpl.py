@@ -13,7 +13,7 @@ from KBaseReport.KBaseReportClient import KBaseReport
 
 from kover_amr.models.cart import CARTModel
 from kover_amr.models.scm import SCMModel
-from kover_amr.reports import generate_html_prediction_report
+from kover_amr.reports import generate_csv_prediction_report, generate_html_prediction_report
 
 
 MODEL_DIR = "/kb/module/data/models"
@@ -172,7 +172,8 @@ class kover_amr:
         kbase_report = KBaseReport(self.callback_url)
         report = kbase_report.create({
             'report': report_data,
-            'workspace_name': params['workspace_name']
+            'workspace_name': params['workspace_name'],
+            'file_links': generate_csv_prediction_report(predictions, species, self.scratch)
         })
 
         output = {
